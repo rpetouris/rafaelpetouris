@@ -357,6 +357,12 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+}
+
+.vc-label {
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  color: #555;
 }
 
 .vc-number {
