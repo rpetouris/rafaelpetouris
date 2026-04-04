@@ -247,20 +247,40 @@ button:hover {
    Mobile-only overrides (< 768px)
    ============================================= */
 @media (max-width: 767px) {
+  .bigBox {
+    display: block;        /* no more flex centering on mobile */
+    padding: 1.5rem;
+  }
+
+  h1, h2, h3 {
+    text-align: left;
+  }
+
+  h1 { margin: 0.6em 0; }
+  h2 { margin: 0.5em 0; }
+  h3 { margin: 0.4em 0; }
+
+  .divBox {
+    margin-bottom: 1.2rem;
+  }
+
   /* Clip the button shadow so it doesn't overflow the page edge */
   .cta-row {
     overflow: hidden;
-    padding-bottom: 20px; /* room for shadow */
+    padding-bottom: 20px;
     margin-bottom: -20px;
   }
 
   button {
-    /* Shorter shadow on mobile so it fits */
     box-shadow:
       2px 2px 0px hsl(0,0%,90%),
       4px 4px 0px hsl(0,0%,80%),
       6px 6px 0px hsl(0,0%,70%),
       8px 8px 0px hsl(0,0%,60%),
       10px 10px 0px hsl(0,0%,50%);
+  }
+
+  .cta-row a {
+    margin-top: -7px;
   }
 }
