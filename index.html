@@ -14,8 +14,6 @@
   <div class="bigBox">
 
     <div class="divBox">
-
-      <!-- Sección de Marquesina 3D -->
       <div class="banner-section">
         <div class="box">
           <div class="inner">
@@ -27,7 +25,6 @@
         </div>
       </div>
 
-      <!-- Sección de Texto que Cae -->
       <div class="dropping-section">
         <div class="dropping-texts">
           <div>Developers!</div>
@@ -36,12 +33,11 @@
           <div>World!</div>
         </div>
       </div>
+    </div>
 
-    </div><!-- /.divBox -->
-
-    <h1>Welcome to my Sandbox.</h1>
+    <h1>Welcome to my Sandbox.<span class="cursor">_</span></h1>
     <h2>My name is Rafael Petouris. I'm a (decent) Computer Scientist.</h2>
-    <h3>Want to send me a message? My e-mail is <b>rafael@petouris.es</b></h3>
+    <h3>Want to send me a message? My e-mail is <b><a href="mailto:rafael@petouris.es">rafael@petouris.es</a></b></h3>
     <h3>Everyone says Hello World but no one says Hello Rafa :(</h3>
 
     <div class="cta-row">
@@ -54,7 +50,57 @@
     <h3>This site is still in progress so have fun looking at the letters move.</h3>
     <h2>Keep hydrated. Moisturize. Marinate. Or something, I'm not your mom.</h2>
 
-  </div><!-- /.bigBox -->
+    <hr class="divider">
+
+    <!-- Avatar + ASCII Chicken -->
+    <div class="avatar-row">
+      <img class="avatar" src="rafa.png" alt="Rafa">
+      <pre class="ascii-art">
+  _\/_
+  (o o)  &lt;-- rafa, probably
+ /|   |\
+   |_|
+  ^ ^ ^
+      </pre>
+    </div>
+
+    <!-- Currently Listening -->
+    <div class="now-playing">
+      <span class="np-bars"><span></span><span></span><span></span><span></span></span>
+      <span class="np-label">rafa is currently vibing to:</span>
+      <a class="np-song" id="nowPlayingSong" href="#" target="_blank">...</a>
+    </div>
+
+    <!-- Visitor Counter -->
+    <div class="visitor-counter">
+      <span class="vc-label">you are visitor number</span>
+      <span class="vc-number" id="visitorCount">042069</span>
+    </div>
+
+  </div>
+
+  <script>
+    // === Now Playing ===
+    const songs = [
+      { title: "街のドルフィン — Kingo Hamada",              url: "https://open.spotify.com/track/5w6EvyvomUSWsF430iixmc" },
+      { title: "Pork Soda — Glass Animals",                  url: "https://open.spotify.com/track/5C5gvDZsl6d8bh89URfKHr" },
+      { title: "Will It Go Round in Circles — Billy Preston", url: "https://open.spotify.com/track/0iifjjuozo6r5fh2GWI6Pq" },
+      { title: "Walk Like an Egyptian — The Bangles",         url: "https://open.spotify.com/track/0q3HPuC4ijfcxiRUeRbbb4" },
+      { title: "Fame — Irene Cara",                           url: "https://open.spotify.com/track/3xPADjEFGZMpBwHMEgxPgC" },
+      { title: "Hot Stuff — Donna Summer",                    url: "https://open.spotify.com/track/4qGMkMPaBd0CQIxOzJ3kQD" },
+    ];
+    const pick = songs[Math.floor(Math.random() * songs.length)];
+    const el = document.getElementById("nowPlayingSong");
+    el.textContent = "♪ " + pick.title;
+    el.href = pick.url;
+
+    // === Visitor Counter ===
+    const base = 42069;
+    const stored = localStorage.getItem("vc");
+    const count = stored ? parseInt(stored) : base + Math.floor(Math.random() * 200);
+    localStorage.setItem("vc", count + 1);
+    document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
+  </script>
 
 </body>
 </html>
