@@ -7,7 +7,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* Start content at top on mobile, center on large screens */
+  justify-content: flex-start;
   background-color: lavenderblush;
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
@@ -18,37 +19,42 @@ body {
    Caja Principal
    ============================================= */
 .bigBox {
-  align-items: center;
-  justify-content: center;
   width: 100%;
   max-width: 1200px;
   box-sizing: border-box;
   background-color: mintcream;
-  /* Fluid padding: cozy on mobile, generous on desktop */
-  padding: clamp(1.5rem, 6vw, 9rem);
+  padding: clamp(1.2rem, 5vw, 9rem);
+}
+
+/* Center vertically only when there's room for it */
+@media (min-height: 700px) and (min-width: 768px) {
+  body {
+    justify-content: center;
+  }
 }
 
 /* =============================================
    Tipografía — fluid scaling
    ============================================= */
 h1 {
-  font-size: clamp(1.8rem, 6vw, 5rem);
+  font-size: clamp(2rem, 8vw, 5rem);
   word-break: break-word;
   white-space: normal;
-  margin: 0.4em 0;
+  margin: 0.25em 0;
 }
 
 h2 {
-  font-size: clamp(1rem, 3vw, 2rem);
+  font-size: clamp(1.1rem, 4.5vw, 2rem);
   word-break: break-word;
   white-space: normal;
-  margin: 0.4em 0;
+  margin: 0.25em 0;
 }
 
 h3 {
-  font-size: clamp(0.85rem, 2.5vw, 1.17rem);
+  font-size: clamp(0.95rem, 3.5vw, 1.17rem);
   word-break: break-word;
   white-space: normal;
+  margin: 0.25em 0;
 }
 
 /* =============================================
@@ -98,17 +104,17 @@ h3 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  flex-wrap: wrap;           /* lets items wrap on narrow screens */
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  flex-wrap: nowrap;         /* keep marquee + dropping text on same row */
+  gap: 0;
+  margin-bottom: 0.5rem;
 }
 
 /* =============================================
    1. Marquesina 3D
    ============================================= */
 .banner-section {
-  flex: 1 1 auto;            /* grows/shrinks with container */
-  min-width: 0;              /* prevents overflow in flex */
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .box {
@@ -117,11 +123,10 @@ h3 {
 }
 
 .box .inner {
-  /* Width fills available space; height scales with viewport */
-  width: clamp(120px, 30vw, 300px);
-  height: clamp(60px, 12vw, 150px);
-  line-height: clamp(60px, 12vw, 150px);
-  font-size: clamp(1.2rem, 4vw, 5rem);
+  width: clamp(130px, 38vw, 300px);
+  height: clamp(70px, 16vw, 150px);
+  line-height: clamp(70px, 16vw, 150px);
+  font-size: clamp(1.4rem, 5vw, 5rem);
   font-weight: bold;
   white-space: nowrap;
   display: flex;
@@ -162,22 +167,20 @@ h3 {
    ============================================= */
 .dropping-section {
   flex: 0 0 auto;
-  font-size: clamp(1.5rem, 5vw, 3.4rem);
+  font-size: clamp(1.8rem, 7vw, 3.4rem);
   color: #333;
   font-weight: 100;
-  /* Give it a fixed height so the animated words don't collapse layout */
-  min-height: clamp(50px, 10vw, 100px);
   display: flex;
   align-items: center;
+  height: clamp(70px, 16vw, 150px); /* match .box .inner height exactly */
 }
 
 .dropping-texts {
   display: inline-block;
-  width: clamp(140px, 25vw, 250px);
+  width: clamp(160px, 35vw, 250px);
   text-align: left;
-  height: clamp(40px, 8vw, 75px);
+  height: clamp(35px, 8vw, 75px);
   position: relative;
-  /* remove the old negative margin that assumed a fixed layout */
   margin-left: 0;
   vertical-align: middle;
 }
@@ -198,11 +201,11 @@ h3 {
 .dropping-texts > div:nth-child(4) { animation: roll 4s linear infinite 3s; }
 
 @keyframes roll {
-  0%   { font-size: 0px;                      opacity: 0; transform: translateY(50px) rotate(0deg); }
-  5%   { font-size: clamp(1rem, 5vw, 75px);   opacity: 1; transform: translateY(0px)   rotate(0deg); }
-  20%  { font-size: clamp(1rem, 5vw, 75px);   opacity: 1; transform: translateY(0px); }
-  25%  { font-size: 0px;                      opacity: 0; transform: translateY(50px); }
-  100% { font-size: 0px;                      opacity: 0; }
+  0%   { font-size: 0px;                        opacity: 0; transform: translateY(50px) rotate(0deg); }
+  5%   { font-size: clamp(1.4rem, 7vw, 75px);   opacity: 1; transform: translateY(0px)   rotate(0deg); }
+  20%  { font-size: clamp(1.4rem, 7vw, 75px);   opacity: 1; transform: translateY(0px); }
+  25%  { font-size: 0px;                        opacity: 0; transform: translateY(50px); }
+  100% { font-size: 0px;                        opacity: 0; }
 }
 
 /* =============================================
