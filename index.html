@@ -73,8 +73,7 @@
 
     <!-- Visitor Counter -->
     <div class="visitor-counter">
-      <span class="vc-label">you are visitor number</span>
-      <span class="vc-number" id="visitorCount">042069</span>
+      <span class="vc-number" id="visitorCount">000000</span>
     </div>
 
   </div>
@@ -82,12 +81,12 @@
   <script>
     // === Now Playing ===
     const songs = [
-      { title: "街のドルフィン — Kingo Hamada",              url: "https://open.spotify.com/track/5w6EvyvomUSWsF430iixmc" },
-      { title: "Pork Soda — Glass Animals",                  url: "https://open.spotify.com/track/5C5gvDZsl6d8bh89URfKHr" },
-      { title: "Will It Go Round in Circles — Billy Preston", url: "https://open.spotify.com/track/0iifjjuozo6r5fh2GWI6Pq" },
-      { title: "Walk Like an Egyptian — The Bangles",         url: "https://open.spotify.com/track/0q3HPuC4ijfcxiRUeRbbb4" },
-      { title: "Fame — Irene Cara",                           url: "https://open.spotify.com/track/3xPADjEFGZMpBwHMEgxPgC" },
-      { title: "Hot Stuff — Donna Summer",                    url: "https://open.spotify.com/track/4qGMkMPaBd0CQIxOzJ3kQD" },
+      { title: "街のドルフィン — Kingo Hamada",               url: "https://open.spotify.com/track/5w6EvyvomUSWsF430iixmc" },
+      { title: "Pork Soda — Glass Animals",                   url: "https://open.spotify.com/track/5C5gvDZsl6d8bh89URfKHr" },
+      { title: "Will It Go Round in Circles — Billy Preston",  url: "https://open.spotify.com/track/0iifjjuozo6r5fh2GWI6Pq" },
+      { title: "Walk Like an Egyptian — The Bangles",          url: "https://open.spotify.com/track/0q3HPuC4ijfcxiRUeRbbb4" },
+      { title: "Fame — Irene Cara",                            url: "https://open.spotify.com/track/3xPADjEFGZMpBwHMEgxPgC" },
+      { title: "Hot Stuff — Donna Summer",                     url: "https://open.spotify.com/track/4qGMkMPaBd0CQIxOzJ3kQD" },
     ];
     const pick = songs[Math.floor(Math.random() * songs.length)];
     const el = document.getElementById("nowPlayingSong");
@@ -95,9 +94,8 @@
     el.href = pick.url;
 
     // === Visitor Counter ===
-    const base = 42069;
     const stored = localStorage.getItem("vc");
-    const count = stored ? parseInt(stored) : base + Math.floor(Math.random() * 200);
+    const count = stored ? parseInt(stored) : 0;
     localStorage.setItem("vc", count + 1);
     document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
   </script>
