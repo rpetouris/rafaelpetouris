@@ -77,8 +77,8 @@ h3 {
   width: 100vw; height: 100vh;
   pointer-events: none;
   z-index: 300;
-  opacity: .6;
-  animation: opacityPulse 3s linear infinite;
+  opacity: .2;
+  animation: opacityPulse 5s linear infinite;
 }
 
 .scanlines::before {
@@ -86,19 +86,19 @@ h3 {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.5) 51%);
-  background-size: 100% 4px;
-  animation: scanlines .2s linear infinite;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.3) 51%);
+  background-size: 100% 6px;
+  animation: scanlines .3s linear infinite;
 }
 
 @keyframes scanlines {
   0%   { background-position: 0 0; }
-  100% { background-position: 0 4px; }
+  100% { background-position: 0 6px; }
 }
 
 @keyframes opacityPulse {
-  0%, 100% { opacity: .6; }
-  50%       { opacity: .4; }
+  0%, 100% { opacity: .2; }
+  50%       { opacity: .1; }
 }
 
 /* =============================================
@@ -108,7 +108,7 @@ h3 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0;
+  gap: 0.25rem;
   margin-bottom: 0.75rem;
   overflow: hidden;
 }
@@ -129,7 +129,7 @@ h3 {
   width: clamp(80px, 25vw, 300px);
   height: clamp(45px, 10vw, 150px);
   line-height: clamp(45px, 10vw, 150px);
-  font-size: clamp(0.9rem, 3.5vw, 5rem);
+  font-size: clamp(1.2rem, 4.5vw, 6rem);
   font-weight: bold;
   white-space: nowrap;
   display: flex;
@@ -233,15 +233,15 @@ button {
   min-width: 44px;
   min-height: 44px;
   box-shadow:
-    2px 2px 0px hsl(0,0%,90%),
-    4px 4px 0px hsl(0,0%,80%),
-    6px 6px 0px hsl(0,0%,70%),
-    8px 8px 0px hsl(0,0%,60%),
-    10px 10px 0px hsl(0,0%,50%),
-    12px 12px 0px hsl(0,0%,40%),
-    14px 14px 0px hsl(0,0%,30%),
-    16px 16px 0px hsl(0,0%,20%),
-    18px 18px 0px hsl(0,0%,10%);
+    2px 2px 0px #cc9900,
+    4px 4px 0px #b8860b,
+    6px 6px 0px #a0720a,
+    8px 8px 0px #8b5f09,
+    10px 10px 0px #764c08,
+    12px 12px 0px #613907,
+    14px 14px 0px #4c2706,
+    16px 16px 0px #371405,
+    18px 18px 0px #220104;
 }
 
 button:hover {
@@ -381,7 +381,7 @@ button:hover {
 }
 
 /* =============================================
-   Mobile-only agent override
+   Mobile-only overrides (< 768px)
    ============================================= */
 @media (max-width: 767px) {
   .bigBox {
@@ -404,11 +404,11 @@ button:hover {
 
   button {
     box-shadow:
-      2px 2px 0px hsl(0,0%,90%),
-      4px 4px 0px hsl(0,0%,80%),
-      6px 6px 0px hsl(0,0%,70%),
-      8px 8px 0px hsl(0,0%,60%),
-      10px 10px 0px hsl(0,0%,50%);
+      2px 2px 0px #cc9900,
+      4px 4px 0px #b8860b,
+      6px 6px 0px #a0720a,
+      8px 8px 0px #8b5f09,
+      10px 10px 0px #764c08;
   }
 
   .cta-row a { margin-top: -7px; }
