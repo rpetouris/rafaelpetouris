@@ -175,7 +175,7 @@ h3 {
 .dropping-section {
   flex: 1 1 0;
   min-width: 0;
-  height: clamp(45px, 10vw, 100px);
+  height: clamp(45px, 10vw, 150px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -184,7 +184,8 @@ h3 {
 .dropping-texts {
   display: block;
   width: clamp(140px, 40vw, 250px);
-  height: clamp(40px, 8vw, 75px);
+  height: clamp(45px, 10vw, 150px);
+  line-height: clamp(45px, 10vw, 150px);
   position: relative;
 }
 
