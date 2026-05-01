@@ -124,7 +124,8 @@
           }
           requestAnimationFrame(step);
         }
-        // First waddle after 60s, then every 60s
+        // First waddle after 5s, then every 60s
+        setTimeout(waddle, 5000);
         setInterval(waddle, 60000);
         return;
       }
