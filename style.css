@@ -450,3 +450,20 @@ button:hover {
   margin-left: -20px;
   margin-top: -35px;
 }
+
+/* =============================================
+   Credits Footer
+   ============================================= */
+.credits {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #3d3228;
+  text-align: center;
+}
+
+.credits p {
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+  color: #6b5a3e;
+  margin: 0.2em 0;
+  font-style: italic;
+}
