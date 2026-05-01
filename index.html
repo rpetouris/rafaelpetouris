@@ -8,11 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
   <div class="scanlines"></div>
-
   <div class="bigBox">
-
     <div class="divBox">
       <div class="banner-section">
         <div class="box">
@@ -24,7 +21,6 @@
           </div>
         </div>
       </div>
-
       <div class="dropping-section">
         <div class="dropping-texts">
           <div>Developers!</div>
@@ -34,24 +30,19 @@
         </div>
       </div>
     </div>
-
     <h1>Welcome to my Sandbox.<span class="cursor">_</span></h1>
     <h2>My name is Rafael Petouris. I'm a (decent) Computer Scientist.</h2>
     <h3>Want to send me a message? My e-mail is <b>rafael@petouris.es</b></h3>
     <h3>Everyone says Hello World but no one says Hello Rafa :(</h3>
-
     <div class="cta-row">
       <h2>Why don't you change that with a ✨dazzling job offer?✨</h2>
       <a href="mailto:rafael@petouris.es">
         <button>=&gt;</button>
       </a>
     </div>
-
     <h3>This site is still in progress so have fun looking at the letters move.</h3>
     <p class="closing-quip">Keep hydrated. Moisturize. Marinate. Or something, I'm not your mom.</p>
-
     <hr class="divider">
-
     <!-- Avatar + ASCII Chicken -->
     <div class="avatar-row">
       <img class="avatar" src="rafa.png" alt="Rafa">
@@ -63,22 +54,20 @@
   _|_   &lt;-- rafa, probably
       </pre>
     </div>
-
     <!-- Currently Listening -->
     <div class="now-playing">
       <span class="np-bars"><span></span><span></span><span></span><span></span></span>
       <span class="np-label">rafa is currently vibing to:</span>
       <a class="np-song" id="nowPlayingSong" href="#" target="_blank">...</a>
     </div>
-
     <!-- Visitor Counter -->
     <div class="visitor-counter">
       <span class="vc-label">you are visitor number</span>
       <span class="vc-number" id="visitorCount">000000</span>
     </div>
-
   </div>
-
+  <!-- Farfetch'd -->
+  <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
     // === Now Playing ===
     const songs = [
@@ -93,13 +82,104 @@
     const el = document.getElementById("nowPlayingSong");
     el.textContent = "♪ " + pick.title;
     el.href = pick.url;
-
     // === Visitor Counter ===
     const stored = localStorage.getItem("vc");
     const count = stored ? parseInt(stored) : 1337;
     localStorage.setItem("vc", count + 1);
     document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
-  </script>
 
+    // === Farfetch'd ===
+    (function() {
+      const bird = document.getElementById("farfetchd");
+      if (!bird) return;
+      bird.style.display = "none";
+      const isMobile = window.matchMedia("(pointer: coarse)").matches;
+
+      // --- MOBILE: waddle across the bottom every 60s ---
+      if (isMobile) {
+        function waddle() {
+          bird.style.display = "block";
+          bird.style.position = "fixed";
+          bird.style.bottom = "10px";
+          bird.style.top = "auto";
+          bird.style.zIndex = "200";
+          // Pick a random direction
+          const goRight = Math.random() > 0.5;
+          bird.style.left = goRight ? "-50px" : (window.innerWidth + 10) + "px";
+          bird.style.transform = goRight ? "scaleX(1)" : "scaleX(-1)";
+          const targetX = goRight ? (window.innerWidth + 60) : -60;
+          const startX = goRight ? -50 : (window.innerWidth + 10);
+          const duration = 5000;
+          const startTime = performance.now();
+          function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const currentX = startX + (targetX - startX) * progress;
+            bird.style.left = currentX + "px";
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              bird.style.display = "none";
+            }
+          }
+          requestAnimationFrame(step);
+        }
+        // First waddle after 60s, then every 60s
+        setInterval(waddle, 60000);
+        return;
+      }
+
+      // --- DESKTOP: Konami code activates cursor chaser ---
+      const konamiCode = [38,38,40,40,37,39,37,39,66,65];
+      let konamiIndex = 0;
+      let chaserActive = false;
+      document.addEventListener("keydown", function(e) {
+        if (chaserActive) return;
+        if (e.keyCode === konamiCode[konamiIndex]) {
+          konamiIndex++;
+          if (konamiIndex === konamiCode.length) {
+            konamiIndex = 0;
+            activateChaser();
+          }
+        } else {
+          konamiIndex = 0;
+        }
+      });
+
+      function activateChaser() {
+        chaserActive = true;
+        bird.style.display = "block";
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let birdX = mouseX;
+        let birdY = mouseY;
+        let facingLeft = false;
+        document.addEventListener("mousemove", function(e) {
+          mouseX = e.pageX;
+          mouseY = e.pageY;
+        });
+        function animate() {
+          const dx = mouseX - birdX;
+          const dy = mouseY - birdY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > 40) {
+            birdX += dx * 0.08;
+            birdY += dy * 0.08;
+          }
+          if (dx < -2 && !facingLeft) {
+            bird.style.transform = "scaleX(-1)";
+            facingLeft = true;
+          } else if (dx > 2 && facingLeft) {
+            bird.style.transform = "scaleX(1)";
+            facingLeft = false;
+          }
+          bird.style.left = birdX + "px";
+          bird.style.top = birdY + "px";
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
+    })();
+  </script>
 </body>
 </html>

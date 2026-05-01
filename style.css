@@ -42,7 +42,7 @@ body {
 }
 
 /* =============================================
-   Typography â€” 3-tier hierarchy
+   Typography — 3-tier hierarchy
    h1 = hero (biggest, full amber)
    h2 = section (medium, slightly muted)
    h3 = body text (small, noticeably dimmer)
@@ -212,7 +212,7 @@ h3 {
 }
 
 /* =============================================
-   CTA Row â€” visually isolated
+   CTA Row — visually isolated
    ============================================= */
 .cta-row {
   display: flex;
@@ -276,7 +276,7 @@ button:hover {
 }
 
 /* =============================================
-   Closing quip â€” reads as a sign-off, not a heading
+   Closing quip — reads as a sign-off, not a heading
    ============================================= */
 .closing-quip {
   color: #cc9900;
@@ -435,4 +435,18 @@ button:hover {
   }
 
   .cta-row a { margin-top: -7px; }
+}
+
+/* =============================================
+   Farfetch'd Cursor Chaser (desktop only)
+   ============================================= */
+.cursor-chaser {
+  position: absolute;
+  width: 40px;
+  height: auto;
+  pointer-events: none;
+  z-index: 200;
+  image-rendering: pixelated;
+  margin-left: -20px;
+  margin-top: -35px;
 }
