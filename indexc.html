@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>???</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #33ff33;
+      font-family: 'VT323', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      min-height: 100vh;
+      padding: clamp(1rem, 4vw, 3rem);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Green scanlines instead of amber */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.4) 51%);
+      background-size: 100% 3px;
+    }
+
+    /* CRT flicker */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.6) 100%);
+    }
+
+    .terminal {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .prompt { color: #00cc00; }
+    .command { color: #33ff33; font-weight: bold; }
+    .output { color: #22dd22; margin-bottom: 1.5rem; line-height: 1.6; }
+    .error { color: #ff3333; }
+    .comment { color: #0a7a0a; font-style: italic; }
+    .highlight { color: #66ff66; font-weight: bold; }
+    .dim { color: #1a9a1a; }
+
+    .line {
+      margin-bottom: 0.3rem;
+    }
+
+    .block {
+      margin-bottom: 2rem;
+    }
+
+    /* Typing cursor */
+    .typing-cursor {
+      display: inline-block;
+      background: #33ff33;
+      width: 0.6em;
+      height: 1.1em;
+      vertical-align: text-bottom;
+      animation: blink-green 1s step-end infinite;
+    }
+
+    @keyframes blink-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Stat bars */
+    .stat-bar {
+      display: inline-block;
+      letter-spacing: -1px;
+    }
+    .stat-fill { color: #33ff33; }
+    .stat-empty { color: #1a3a1a; }
+
+    /* Section dividers */
+    .divider {
+      color: #0a7a0a;
+      margin: 1.5rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* Back link */
+    a {
+      color: #33ff33;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #66ff66;
+      text-decoration: underline;
+    }
+
+    /* Boot-up animation */
+    .block {
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .block:nth-child(1)  { animation-delay: 0.2s; }
+    .block:nth-child(2)  { animation-delay: 0.5s; }
+    .block:nth-child(3)  { animation-delay: 0.8s; }
+    .block:nth-child(4)  { animation-delay: 1.1s; }
+    .block:nth-child(5)  { animation-delay: 1.4s; }
+    .block:nth-child(6)  { animation-delay: 1.7s; }
+    .block:nth-child(7)  { animation-delay: 2.0s; }
+    .block:nth-child(8)  { animation-delay: 2.3s; }
+    .block:nth-child(9)  { animation-delay: 2.6s; }
+    .block:nth-child(10) { animation-delay: 2.9s; }
+    .block:nth-child(11) { animation-delay: 3.2s; }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">cat /etc/cheese</span></div>
+      <div class="output">
+        <br>
+        ======================================<br>
+        Admin access (almost) granted...<br>
+        Deploying fun facts<br>
+        ======================================<br>
+        <br>
+        <span class="comment">// cheese? why cheese? how did you figure it out?</span><br>
+        <span class="comment">// here is your reward</span>
+      </div>
+    </div>
+
+    <div class="divider">========================================================</div>
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">neofetch --personality</span></div>
+      <div class="output">
+        <br>
+        <span class="highlight">rafa@earth</span><br>
+        ──────────────────<br>
+        Name: Rafael Petouris<br>
+        Class: Warlock Main<br>
+        Subclass: Voidwalker<br>
+        Lore: Read and bounded the Books of Sorrow<br>
+        Status: Probably grinding<br>
+      </div>
+    </div>
+
+    <div class="divider">========================================================</div>
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">destiny2 --stats</span></div>
+      <div class="output">
+        <br>
+        <span class="highlight">// DESTINY 2 //</span><br>
+        <br>
+        Hours played: ............. <span class="error">don't ask</span><br>
+        Main: .................... Warlock<br>
+        Favorite exotics: ........ Jötunn / Telesto / Gjallarhorn<br>
+        First exotic ever: ....... Gjallarhorn (never forget)<br>
+        Raid clears: ............. not many, but I learn mechanics<br>
+        PvP skill: ............... <span class="stat-bar"><span class="stat-fill">████████</span><span class="stat-empty">██████████</span></span> "improving"<br>
+        Shader hoarding: ......... <span class="stat-bar"><span class="stat-fill">██████████████████</span></span> always<br>
+        <br>
+        <span class="comment">// i once made my fireteam rage by running</span><br>
+        <span class="comment">// jötunn + sword against Oryx. it did not work.</span>
+      </div>
+    </div>
+
+    <div class="divider">========================================================</div>
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">cat ~/.music_taste</span></div>
+      <div class="output">
+        <br>
+        <span class="highlight">// NOW LOADING: rafa_playlist.db //</span><br>
+        <br>
+        Genre consistency: <span class="error">NOT FOUND</span><br>
+        <br>
+        Contains traces of:<br>
+        &gt; Glass Animals<br>
+        &gt; Hamilton (the entire soundtrack, multiple times)<br>
+        &gt; Anime OSTs (YOASOBI, One Piece)<br>
+        &gt; Other broadway musicals (Wicked, Shrek the Musical)<br>
+        &gt; Muse<br>
+        &gt; City pop &amp; 60s pop (Kingo Hamada, Connie Francis)<br>
+        &gt; Pokémon battle themes<br>
+        &gt; The Civ VI Spain theme<br>
+        &gt; Hola Don Pepito by Los Payasos de la Tele<br>
+      </div>
+    </div>
+
+    <div class="divider">========================================================</div>
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">cat /dev/random_facts</span></div>
+      <div class="output">
+        <br>
+        &gt; Greek + Spanish, living in the Netherlands<br>
+        &gt; Yes, the weather here is always grey<br>
+        &gt; My favorite Pokémon is Psyduck (has migraines)<br>
+        &gt; I speak five languages and none of them fluently enough<br>
+        &gt; Really wishes Porygon existed irl<br>
+        &gt; Loves User Testing<br>
+        &gt; Learned to program with Batch<br>
+      </div>
+    </div>
+
+    <div class="divider">========================================================</div>
+
+    <div class="block">
+      <div class="line"><span class="prompt">rafa@sandbox:~$</span> <span class="command">cd /home</span></div>
+      <div class="output">
+        <br>
+        <a href="/">&gt; return to petouris.es</a><br>
+        <br>
+        <span class="typing-cursor"></span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
