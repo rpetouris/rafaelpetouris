@@ -138,12 +138,12 @@
       }
 
       // --- DESKTOP: Konami code activates cursor chaser ---
-      const konamiCode = [38,38,40,40,37,39,37,39,66,65];
+      const konamiCode = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
       let konamiIndex = 0;
       let chaserActive = false;
       document.addEventListener("keydown", function(e) {
         if (chaserActive) return;
-        if (e.keyCode === konamiCode[konamiIndex]) {
+        if (e.key === konamiCode[konamiIndex]) {
           konamiIndex++;
           if (konamiIndex === konamiCode.length) {
             konamiIndex = 0;
