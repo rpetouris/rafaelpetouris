@@ -65,8 +65,15 @@
       <span class="vc-label">you are visitor number</span>
       <span class="vc-number" id="visitorCount">000000</span>
     </div>
+    <!-- Credits -->
+    <footer class="credits">
+      <p>© 2026 Rafael Petouris</p>
+      <p>Farfetch'd sprite — Pokémon is © Nintendo / Game Freak / Creatures Inc.</p>
+      <p>Built with stubbornness, pure HTML/CSS, and zero frameworks.</p>
+    </footer>
   </div>
-  <!-- Farfetch'd -->
+  <!-- Farfetch'd — Pokémon is © Nintendo/Game Freak/Creatures Inc. 
+       Sprite used for fun on a personal non-commercial site. No infringement intended. -->
   <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
     // === Now Playing ===
@@ -106,7 +113,7 @@
           // Pick a random direction
           const goRight = Math.random() > 0.5;
           bird.style.left = goRight ? "-50px" : (window.innerWidth + 10) + "px";
-          bird.style.transform = goRight ? "scaleX(1)" : "scaleX(-1)";
+          bird.style.transform = goRight ? "scaleX(-1)" : "scaleX(1)";
           const targetX = goRight ? (window.innerWidth + 60) : -60;
           const startX = goRight ? -50 : (window.innerWidth + 10);
           const duration = 5000;
@@ -168,10 +175,10 @@
             birdY += dy * 0.08;
           }
           if (dx < -2 && !facingLeft) {
-            bird.style.transform = "scaleX(-1)";
+            bird.style.transform = "scaleX(1)";
             facingLeft = true;
           } else if (dx > 2 && facingLeft) {
-            bird.style.transform = "scaleX(1)";
+            bird.style.transform = "scaleX(-1)";
             facingLeft = false;
           }
           bird.style.left = birdX + "px";
