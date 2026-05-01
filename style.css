@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -462,8 +462,8 @@ button:hover {
 }
 
 .credits p {
-  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
-  color: #6b5a3e;
-  margin: 0.2em 0;
+  font-size: 0.55rem;
+  color: #4a3f30;
+  margin: 0.15em 0;
   font-style: italic;
 }
