@@ -13,7 +13,12 @@
     <div class="divBox">
       <div class="banner-section">
         <div class="box">
-          <div class="inner">¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  </div>
+          <div class="inner">
+            <span>¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  </span>
+          </div>
+          <div class="inner">
+            <span>¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  ¡Hola! Hola! Hello! Hallo! Γειά σου!  </span>
+          </div>
         </div>
       </div>
       <div class="dropping-section">
@@ -71,6 +76,36 @@
        Sprite used for fun on a personal non-commercial site. No infringement intended. -->
   <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
+    // === Synchronized Marquee ===
+    (function() {
+      var inners = document.querySelectorAll(".box .inner");
+      if (inners.length < 2) return;
+      var span1 = inners[0].querySelector("span");
+      var span2 = inners[1].querySelector("span");
+      if (!span1 || !span2) return;
+
+      // Measure the text width (half of content = one repeat cycle)
+      var textWidth = span1.scrollWidth / 2;
+      var panelWidth = inners[0].offsetWidth;
+      var offset = 0;
+      var speed = 0.5; // pixels per frame
+
+      function scrollMarquee() {
+        offset -= speed;
+        // Reset when one full cycle has scrolled
+        if (offset <= -textWidth) {
+          offset += textWidth;
+        }
+        // Panel 1 sees the text at offset
+        span1.style.transform = "translateX(" + offset + "px)";
+        // Panel 2 sees the same text, shifted by panel width
+        // so it looks like a continuous strip
+        span2.style.transform = "translateX(" + (offset - panelWidth) + "px)";
+        requestAnimationFrame(scrollMarquee);
+      }
+      scrollMarquee();
+    })();
+
     // === Now Playing ===
     const songs = [
       { title: "街のドルフィン — Kingo Hamada",               url: "https://open.spotify.com/track/5w6EvyvomUSWsF430iixmc" },
