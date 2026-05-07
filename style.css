@@ -171,18 +171,17 @@ h3 {
    Dropping Text
    ============================================= */
 .dropping-section {
-  flex: 0 0 auto;
+  flex: 1 1 0;
   min-width: 0;
   height: clamp(45px, 10vw, 150px);
   display: flex;
   align-items: center;
   overflow: hidden;
-  margin-left: 0.5rem;
 }
 
 .dropping-texts {
   display: block;
-  width: clamp(140px, 30vw, 300px);
+  width: 100%;
   height: clamp(45px, 10vw, 150px);
   line-height: clamp(45px, 10vw, 150px);
   position: relative;
