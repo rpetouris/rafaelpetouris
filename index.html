@@ -76,7 +76,7 @@
        Sprite used for fun on a personal non-commercial site. No infringement intended. -->
   <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
-    // === Synchronized Marquee ===
+    // === Synchronized Marquee (perspective-aware) ===
     (function() {
       var inners = document.querySelectorAll(".box .inner");
       if (inners.length < 2) return;
@@ -84,23 +84,28 @@
       var span2 = inners[1].querySelector("span");
       if (!span1 || !span2) return;
 
-      // Measure the text width (half of content = one repeat cycle)
+      // getBoundingClientRect gives us the VISUAL width after perspective
+      var visualWidth1 = inners[0].getBoundingClientRect().width;
+      var visualWidth2 = inners[1].getBoundingClientRect().width;
+      // The CSS width before transform
+      var cssWidth = inners[0].offsetWidth;
+
+      // Ratio: how much the perspective shrinks/stretches each panel visually
+      var ratio1 = cssWidth / visualWidth1;
+      var ratio2 = cssWidth / visualWidth2;
+
       var textWidth = span1.scrollWidth / 2;
-      var panelWidth = inners[0].offsetWidth;
       var offset = 0;
-      var speed = 0.5; // pixels per frame
+      var speed = 0.5;
 
       function scrollMarquee() {
         offset -= speed;
-        // Reset when one full cycle has scrolled
         if (offset <= -textWidth) {
           offset += textWidth;
         }
-        // Panel 1 sees the text at offset
         span1.style.transform = "translateX(" + offset + "px)";
-        // Panel 2 sees the same text, shifted by panel width
-        // so it looks like a continuous strip
-        span2.style.transform = "translateX(" + (offset - panelWidth) + "px)";
+        // Offset panel 2 by the visual width of panel 1, scaled back to CSS space
+        span2.style.transform = "translateX(" + (offset - (visualWidth1 * ratio2)) + "px)";
         requestAnimationFrame(scrollMarquee);
       }
       scrollMarquee();
