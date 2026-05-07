@@ -160,7 +160,6 @@ h3 {
 .box .inner span {
   position: absolute;
   left: 0;
-  animation: marquee 20s linear infinite;
 }
 
 @keyframes marquee {
