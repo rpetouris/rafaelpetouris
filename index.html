@@ -40,7 +40,7 @@
         <button>=&gt;</button>
       </a>
     </div>
-    <h3>This site is ever-changing and therefore always in progress so have fun looking at the letters move.</h3>
+    <h3>This site is still in progress so have fun looking at the letters move.</h3>
     <p class="closing-quip">Keep hydrated. Moisturize. Marinate. Or something, I'm not your mom.</p>
     <hr class="divider">
     <!-- Avatar + ASCII Chicken -->
@@ -166,20 +166,33 @@
           mouseX = e.pageX;
           mouseY = e.pageY;
         });
+        // HGSS bounce on click
+        bird.addEventListener("click", function(e) {
+          e.stopPropagation();
+          bird.classList.remove("bouncing");
+          // Force reflow to restart animation
+          void bird.offsetWidth;
+          bird.classList.add("bouncing");
+          setTimeout(function() {
+            bird.classList.remove("bouncing");
+          }, 500);
+        });
         function animate() {
           const dx = mouseX - birdX;
           const dy = mouseY - birdY;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist > 40) {
-            birdX += dx * 0.08;
-            birdY += dy * 0.08;
+            birdX += dx * 0.03;
+            birdY += dy * 0.03;
           }
-          if (dx < -2 && !facingLeft) {
-            bird.style.transform = "scaleX(1)";
-            facingLeft = true;
-          } else if (dx > 2 && facingLeft) {
-            bird.style.transform = "scaleX(-1)";
-            facingLeft = false;
+          if (!bird.classList.contains("bouncing")) {
+            if (dx < -2 && !facingLeft) {
+              bird.style.transform = "scaleX(1)";
+              facingLeft = true;
+            } else if (dx > 2 && facingLeft) {
+              bird.style.transform = "scaleX(-1)";
+              facingLeft = false;
+            }
           }
           bird.style.left = birdX + "px";
           bird.style.top = birdY + "px";
