@@ -129,37 +129,22 @@ h3 {
 
 .box {
   display: flex;
+  width: clamp(160px, 50vw, 600px);
+  height: clamp(45px, 10vw, 150px);
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(to right, #4a3728 0%, #4a3728 48%, #5c4033 52%, #5c4033 100%);
+  transform: perspective(400px) rotateY(0deg);
 }
 
 .box .inner {
-  width: clamp(80px, 25vw, 300px);
-  height: clamp(45px, 10vw, 150px);
+  position: absolute;
+  height: 100%;
   line-height: clamp(45px, 10vw, 150px);
   font-size: clamp(0.9rem, 3.5vw, 5rem);
   font-weight: bold;
   white-space: nowrap;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-}
-
-.box .inner:first-child {
-  background-color: #4a3728;
-  color: #ff8c42;
-  transform-origin: right;
-  transform: perspective(200px) rotateY(-15deg);
-}
-
-.box .inner:last-child {
-  background-color: #5c4033;
   color: #ffb000;
-  transform-origin: left;
-  transform: perspective(200px) rotateY(15deg);
-}
-
-.box .inner span {
-  position: absolute;
-  left: 0;
   animation: marquee 20s linear infinite;
 }
 
