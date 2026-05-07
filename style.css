@@ -96,11 +96,12 @@ h3 {
 .speech-bubble::before {
   content: '';
   position: absolute;
-  left: -0.7em;
+  left: -0.4em;
   top: 50%;
-  transform: translateY(-50%);
-  border: 0.4em solid transparent;
-  border-right-color: #3d3228;
+  transform: translateY(-50%) rotate(45deg);
+  width: 0.8em;
+  height: 0.8em;
+  background: #3d3228;
 }
 
 /* =============================================
