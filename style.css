@@ -77,8 +77,11 @@ h3 {
 /* Code-style text */
 .code-text {
   font-family: monospace;
-  color: #cc9900;
+  color: #ff8c42;
   font-size: 0.9em;
+  background: #1a1611;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
 }
 
 /* Speech bubble */
