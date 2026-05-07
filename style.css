@@ -159,14 +159,13 @@ h3 {
 
 .box .inner span {
   position: absolute;
-  animation: marquee 30s linear infinite;
+  left: 0;
+  animation: marquee 20s linear infinite;
 }
 
-.box .inner:first-child span { left: 100%; }
-
 @keyframes marquee {
-   0%   { transform: translateX(0%); }
-  100%  { transform: translateX(-100%); }
+   0%   { transform: translateX(0); }
+  100%  { transform: translateX(-50%); }
 }
 
 /* =============================================
