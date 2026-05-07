@@ -84,16 +84,7 @@
       var span2 = inners[1].querySelector("span");
       if (!span1 || !span2) return;
 
-      // getBoundingClientRect gives us the VISUAL width after perspective
-      var visualWidth1 = inners[0].getBoundingClientRect().width;
-      var visualWidth2 = inners[1].getBoundingClientRect().width;
-      // The CSS width before transform
-      var cssWidth = inners[0].offsetWidth;
-
-      // Ratio: how much the perspective shrinks/stretches each panel visually
-      var ratio1 = cssWidth / visualWidth1;
-      var ratio2 = cssWidth / visualWidth2;
-
+      var panelWidth = inners[0].offsetWidth;
       var textWidth = span1.scrollWidth / 2;
       var offset = 0;
       var speed = 0.5;
@@ -104,8 +95,7 @@
           offset += textWidth;
         }
         span1.style.transform = "translateX(" + offset + "px)";
-        // Offset panel 2 by the visual width of panel 1, scaled back to CSS space
-        span2.style.transform = "translateX(" + (offset - (visualWidth1 * ratio2)) + "px)";
+        span2.style.transform = "translateX(" + (offset - panelWidth) + "px)";
         requestAnimationFrame(scrollMarquee);
       }
       scrollMarquee();
