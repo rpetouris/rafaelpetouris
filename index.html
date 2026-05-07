@@ -77,9 +77,8 @@
   <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
     // === Synchronized Marquee ===
-    // Panel 2 (right) scrolls. Panel 1 (left) is delayed by exactly
-    // the time it takes text to cross one panel width, so words flow
-    // seamlessly from right panel into left panel.
+    // Text scrolls right-to-left. Right panel shows text first,
+    // left panel shows it after — delayed by one panel width.
     (function() {
       var inners = document.querySelectorAll(".box .inner");
       if (inners.length < 2) return;
@@ -90,9 +89,10 @@
       var panelWidth = inners[0].offsetWidth;
       var textWidth = span1.scrollWidth / 2;
       var speed = 0.5;
+
+      // Right panel (span2) is ahead, left panel (span1) trails by panelWidth
       var offset2 = 0;
-      // Panel 1 is delayed: starts one panel-width behind in the scroll
-      var offset1 = 0 - panelWidth;
+      var offset1 = panelWidth;
 
       function scrollMarquee() {
         offset1 -= speed;
