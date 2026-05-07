@@ -167,51 +167,91 @@
         bird.style.display = "block";
         let mouseX = lastMouseX;
         let mouseY = lastMouseY;
-        let birdX = lastMouseX;
-        let birdY = lastMouseY;
+        let birdX = -40;
+        let birdY = 50;
         let facingLeft = false;
-        const SPEED = 1.5; // fixed pixels per frame
+        const SPEED = 1.5;
         const STOP_DIST = 40;
+        let following = false;
 
         document.addEventListener("mousemove", function(e) {
           mouseX = e.pageX;
           mouseY = e.pageY;
         });
 
-        // Set initial position and facing
+        // Set initial position — offscreen left
         bird.style.left = birdX + "px";
         bird.style.top = birdY + "px";
         bird.style.transform = "scaleX(-1)";
         facingLeft = false;
 
-        // HGSS bounce on click — double bounce
-        let bouncing = false;
-        bird.addEventListener("click", function(e) {
-          e.stopPropagation();
-          if (bouncing) return;
-          bouncing = true;
-          const duration = 500;
-          const startTime = performance.now();
+        // Phase 1: waddle to center of viewport
+        var targetX = window.innerWidth / 2;
+        var targetY = window.innerHeight / 2;
+        var introSpeed = 2;
+
+        function introWaddle() {
+          var dx = targetX - birdX;
+          var dy = targetY - birdY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist > 10) {
+            birdX += (dx / dist) * introSpeed;
+            birdY += (dy / dist) * introSpeed;
+            bird.style.left = birdX + "px";
+            bird.style.top = birdY + "px";
+
+            // Face the right direction during waddle
+            if (dx < -2 && !facingLeft) {
+              bird.style.transform = "scaleX(1)";
+              facingLeft = true;
+            } else if (dx > 2 && facingLeft) {
+              bird.style.transform = "scaleX(-1)";
+              facingLeft = false;
+            }
+
+            requestAnimationFrame(introWaddle);
+          } else {
+            // Phase 2: arrival double bounce
+            doDoubleBounce(function() {
+              // Phase 3: start following the mouse
+              following = true;
+              animate();
+            });
+          }
+        }
+
+        // Double bounce function (reusable)
+        function doDoubleBounce(callback) {
+          var duration = 500;
+          var startTime = performance.now();
+          var baseY = birdY;
           function bounceStep(now) {
-            const t = Math.min((now - startTime) / duration, 1);
+            var t = Math.min((now - startTime) / duration, 1);
             var hop = 0;
-            // First big bounce: t 0–0.55
             if (t < 0.55) {
               hop = Math.sin((t / 0.55) * Math.PI) * -18;
-            }
-            // Second small bounce: t 0.55–1.0
-            else {
+            } else {
               hop = Math.sin(((t - 0.55) / 0.45) * Math.PI) * -6;
             }
-            bird.style.top = (birdY + hop) + "px";
+            bird.style.top = (baseY + hop) + "px";
             if (t < 1) {
               requestAnimationFrame(bounceStep);
             } else {
-              bird.style.top = birdY + "px";
-              bouncing = false;
+              bird.style.top = baseY + "px";
+              if (callback) callback();
             }
           }
           requestAnimationFrame(bounceStep);
+        }
+
+        // Click bounce (only when following)
+        let bouncing = false;
+        bird.addEventListener("click", function(e) {
+          e.stopPropagation();
+          if (bouncing || !following) return;
+          bouncing = true;
+          doDoubleBounce(function() { bouncing = false; });
         });
 
         function animate() {
@@ -220,22 +260,17 @@
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist > STOP_DIST) {
-            // Normalize direction, move at fixed speed
             birdX += (dx / dist) * SPEED;
             birdY += (dy / dist) * SPEED;
           }
 
           if (!bouncing) {
-            if (dx < -2) {
-              if (!facingLeft) {
-                bird.style.transform = "scaleX(1)";
-                facingLeft = true;
-              }
-            } else if (dx > 2) {
-              if (facingLeft) {
-                bird.style.transform = "scaleX(-1)";
-                facingLeft = false;
-              }
+            if (dx < -2 && !facingLeft) {
+              bird.style.transform = "scaleX(1)";
+              facingLeft = true;
+            } else if (dx > 2 && facingLeft) {
+              bird.style.transform = "scaleX(-1)";
+              facingLeft = false;
             }
           }
 
@@ -243,7 +278,9 @@
           bird.style.top = birdY + "px";
           requestAnimationFrame(animate);
         }
-        animate();
+
+        // Start the intro
+        introWaddle();
       }
     })();
   </script>
