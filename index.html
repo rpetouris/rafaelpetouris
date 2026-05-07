@@ -221,18 +221,20 @@
           }
         }
 
-        // Double bounce function (reusable)
+        // Triple bounce: big, big, small
         function doDoubleBounce(callback) {
-          var duration = 500;
+          var duration = 700;
           var startTime = performance.now();
           var baseY = birdY;
           function bounceStep(now) {
             var t = Math.min((now - startTime) / duration, 1);
             var hop = 0;
-            if (t < 0.55) {
-              hop = Math.sin((t / 0.55) * Math.PI) * -18;
+            if (t < 0.38) {
+              hop = Math.sin((t / 0.38) * Math.PI) * -18;
+            } else if (t < 0.72) {
+              hop = Math.sin(((t - 0.38) / 0.34) * Math.PI) * -16;
             } else {
-              hop = Math.sin(((t - 0.55) / 0.45) * Math.PI) * -6;
+              hop = Math.sin(((t - 0.72) / 0.28) * Math.PI) * -6;
             }
             bird.style.top = (baseY + hop) + "px";
             if (t < 1) {
