@@ -94,14 +94,14 @@
     const count = stored ? parseInt(stored) : 1337;
     localStorage.setItem("vc", count + 1);
     document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
- 
+
     // === Farfetch'd ===
     (function() {
       const bird = document.getElementById("farfetchd");
       if (!bird) return;
       bird.style.display = "none";
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
- 
+
       // --- MOBILE: waddle across the bottom every 60s ---
       if (isMobile) {
         function waddle() {
@@ -136,7 +136,7 @@
         setInterval(waddle, 60000);
         return;
       }
- 
+
       // --- DESKTOP: Konami code activates cursor chaser ---
       const konamiCode = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
       let konamiIndex = 0;
@@ -153,7 +153,7 @@
           konamiIndex = 0;
         }
       });
- 
+
       // Track mouse position globally so bird can spawn at cursor
       let lastMouseX = 0;
       let lastMouseY = 0;
@@ -161,7 +161,7 @@
         lastMouseX = e.pageX;
         lastMouseY = e.pageY;
       });
- 
+
       function activateChaser() {
         chaserActive = true;
         bird.style.display = "block";
@@ -170,37 +170,67 @@
         let birdX = lastMouseX;
         let birdY = lastMouseY;
         let facingLeft = false;
+        const SPEED = 1.5; // fixed pixels per frame
+        const STOP_DIST = 40;
+
         document.addEventListener("mousemove", function(e) {
           mouseX = e.pageX;
           mouseY = e.pageY;
         });
-        // HGSS bounce on click — done in JS to preserve facing direction
+
+        // Set initial position
+        bird.style.left = birdX + "px";
+        bird.style.top = birdY + "px";
+
+        // HGSS bounce on click
         let bouncing = false;
         bird.addEventListener("click", function(e) {
           e.stopPropagation();
           if (bouncing) return;
           bouncing = true;
-          const flipX = facingLeft ? "scaleX(1)" : "scaleX(-1)";
-          const frames = [
-            { offset: 0,    transform: flipX + " translateY(0) scaleY(1)" },
-            { offset: 0.15, transform: flipX + " translateY(2px) scaleY(0.85)" },
-            { offset: 0.4,  transform: flipX + " translateY(-14px) scaleY(1.1)" },
-            { offset: 0.6,  transform: flipX + " translateY(0) scaleY(0.9)" },
-            { offset: 0.75, transform: flipX + " translateY(-5px) scaleY(1.05)" },
-            { offset: 0.9,  transform: flipX + " translateY(0) scaleY(0.97)" },
-            { offset: 1,    transform: flipX + " translateY(0) scaleY(1)" },
-          ];
-          bird.animate(frames, { duration: 500, easing: "ease" });
-          setTimeout(function() { bouncing = false; }, 500);
+          const startY = birdY;
+          const duration = 400;
+          const startTime = performance.now();
+          function bounceStep(now) {
+            const t = Math.min((now - startTime) / duration, 1);
+            // Simple arc: sin curve for the hop
+            const hop = Math.sin(t * Math.PI) * -16;
+            // Squish at start and landing
+            var squishY = 1;
+            var squishX = 1;
+            if (t < 0.15) {
+              squishY = 1 - (0.15 * (t / 0.15));
+              squishX = 1 + (0.1 * (t / 0.15));
+            } else if (t > 0.85) {
+              var lt = (t - 0.85) / 0.15;
+              squishY = 1 - (0.1 * (1 - lt));
+              squishX = 1 + (0.05 * (1 - lt));
+            }
+            var flipVal = facingLeft ? 1 : -1;
+            bird.style.transform = "scaleX(" + flipVal + ") scaleY(" + squishY + ") scaleX(" + squishX + ")";
+            bird.style.top = (birdY + hop) + "px";
+            if (t < 1) {
+              requestAnimationFrame(bounceStep);
+            } else {
+              bird.style.top = birdY + "px";
+              bird.style.transform = facingLeft ? "scaleX(1)" : "scaleX(-1)";
+              bouncing = false;
+            }
+          }
+          requestAnimationFrame(bounceStep);
         });
+
         function animate() {
           const dx = mouseX - birdX;
           const dy = mouseY - birdY;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 40) {
-            birdX += dx * 0.03;
-            birdY += dy * 0.03;
+
+          if (dist > STOP_DIST) {
+            // Normalize direction, move at fixed speed
+            birdX += (dx / dist) * SPEED;
+            birdY += (dy / dist) * SPEED;
           }
+
           if (!bouncing) {
             if (dx < -2 && !facingLeft) {
               bird.style.transform = "scaleX(1)";
@@ -210,6 +240,7 @@
               facingLeft = false;
             }
           }
+
           bird.style.left = birdX + "px";
           bird.style.top = birdY + "px";
           requestAnimationFrame(animate);
@@ -220,4 +251,3 @@
   </script>
 </body>
 </html>
- 
