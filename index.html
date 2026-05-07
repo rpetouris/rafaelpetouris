@@ -106,8 +106,11 @@
       scrollMarquee();
     })();
 
-    // === Now Playing ===
-    const songs = [
+    // === Config ===
+    const SUPABASE_URL = "https://xhfemjakvblelpdtlwxp.supabase.co"; // e.g. https://abcdef123.supabase.co
+
+    // === Now Playing (Spotify via Supabase) ===
+    const fallbackSongs = [
       { title: "街のドルフィン — Kingo Hamada",               url: "https://open.spotify.com/track/5w6EvyvomUSWsF430iixmc" },
       { title: "Pork Soda — Glass Animals",                   url: "https://open.spotify.com/track/5C5gvDZsl6d8bh89URfKHr" },
       { title: "Will It Go Round in Circles — Billy Preston",  url: "https://open.spotify.com/track/0iifjjuozo6r5fh2GWI6Pq" },
@@ -115,15 +118,36 @@
       { title: "Fame — Irene Cara",                            url: "https://open.spotify.com/track/3xPADjEFGZMpBwHMEgxPgC" },
       { title: "Hot Stuff — Donna Summer",                     url: "https://open.spotify.com/track/4qGMkMPaBd0CQIxOzJ3kQD" },
     ];
-    const pick = songs[Math.floor(Math.random() * songs.length)];
-    const el = document.getElementById("nowPlayingSong");
-    el.textContent = "♪ " + pick.title;
-    el.href = pick.url;
-    // === Visitor Counter ===
-    const stored = localStorage.getItem("vc");
-    const count = stored ? parseInt(stored) : 1337;
-    localStorage.setItem("vc", count + 1);
-    document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
+
+    (async function loadNowPlaying() {
+      const songEl = document.getElementById("nowPlayingSong");
+      try {
+        const res = await fetch(SUPABASE_URL + "/functions/v1/now-playing");
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        songEl.textContent = "♪ " + data.title + (data.artist ? " — " + data.artist : "");
+        songEl.href = data.url || "#";
+      } catch (e) {
+        // Fallback to random song if API is down
+        const pick = fallbackSongs[Math.floor(Math.random() * fallbackSongs.length)];
+        songEl.textContent = "♪ " + pick.title;
+        songEl.href = pick.url;
+      }
+    })();
+
+    // === Visitor Counter (Supabase) ===
+    (async function loadVisitorCount() {
+      const countEl = document.getElementById("visitorCount");
+      try {
+        const res = await fetch(SUPABASE_URL + "/functions/v1/visitor");
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        countEl.textContent = String(data.count).padStart(6, "0");
+      } catch (e) {
+        // Fallback: show ??? if API is down
+        countEl.textContent = "??????";
+      }
+    })();
 
     // === Farfetch'd ===
     (function() {
