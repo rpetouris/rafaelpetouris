@@ -94,14 +94,14 @@
     const count = stored ? parseInt(stored) : 1337;
     localStorage.setItem("vc", count + 1);
     document.getElementById("visitorCount").textContent = String(count).padStart(6, "0");
-
+ 
     // === Farfetch'd ===
     (function() {
       const bird = document.getElementById("farfetchd");
       if (!bird) return;
       bird.style.display = "none";
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
-
+ 
       // --- MOBILE: waddle across the bottom every 60s ---
       if (isMobile) {
         function waddle() {
@@ -136,7 +136,7 @@
         setInterval(waddle, 60000);
         return;
       }
-
+ 
       // --- DESKTOP: Konami code activates cursor chaser ---
       const konamiCode = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
       let konamiIndex = 0;
@@ -153,29 +153,45 @@
           konamiIndex = 0;
         }
       });
-
+ 
+      // Track mouse position globally so bird can spawn at cursor
+      let lastMouseX = 0;
+      let lastMouseY = 0;
+      document.addEventListener("mousemove", function(e) {
+        lastMouseX = e.pageX;
+        lastMouseY = e.pageY;
+      });
+ 
       function activateChaser() {
         chaserActive = true;
         bird.style.display = "block";
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let birdX = mouseX;
-        let birdY = mouseY;
+        let mouseX = lastMouseX;
+        let mouseY = lastMouseY;
+        let birdX = lastMouseX;
+        let birdY = lastMouseY;
         let facingLeft = false;
         document.addEventListener("mousemove", function(e) {
           mouseX = e.pageX;
           mouseY = e.pageY;
         });
-        // HGSS bounce on click
+        // HGSS bounce on click — done in JS to preserve facing direction
+        let bouncing = false;
         bird.addEventListener("click", function(e) {
           e.stopPropagation();
-          bird.classList.remove("bouncing");
-          // Force reflow to restart animation
-          void bird.offsetWidth;
-          bird.classList.add("bouncing");
-          setTimeout(function() {
-            bird.classList.remove("bouncing");
-          }, 500);
+          if (bouncing) return;
+          bouncing = true;
+          const flipX = facingLeft ? "scaleX(1)" : "scaleX(-1)";
+          const frames = [
+            { offset: 0,    transform: flipX + " translateY(0) scaleY(1)" },
+            { offset: 0.15, transform: flipX + " translateY(2px) scaleY(0.85)" },
+            { offset: 0.4,  transform: flipX + " translateY(-14px) scaleY(1.1)" },
+            { offset: 0.6,  transform: flipX + " translateY(0) scaleY(0.9)" },
+            { offset: 0.75, transform: flipX + " translateY(-5px) scaleY(1.05)" },
+            { offset: 0.9,  transform: flipX + " translateY(0) scaleY(0.97)" },
+            { offset: 1,    transform: flipX + " translateY(0) scaleY(1)" },
+          ];
+          bird.animate(frames, { duration: 500, easing: "ease" });
+          setTimeout(function() { bouncing = false; }, 500);
         });
         function animate() {
           const dx = mouseX - birdX;
@@ -185,7 +201,7 @@
             birdX += dx * 0.03;
             birdY += dy * 0.03;
           }
-          if (!bird.classList.contains("bouncing")) {
+          if (!bouncing) {
             if (dx < -2 && !facingLeft) {
               bird.style.transform = "scaleX(1)";
               facingLeft = true;
@@ -204,3 +220,4 @@
   </script>
 </body>
 </html>
+ 
