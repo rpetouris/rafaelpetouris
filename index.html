@@ -178,42 +178,36 @@
           mouseY = e.pageY;
         });
 
-        // Set initial position
+        // Set initial position and facing
         bird.style.left = birdX + "px";
         bird.style.top = birdY + "px";
+        bird.style.transform = "scaleX(-1)";
+        facingLeft = false;
 
-        // HGSS bounce on click
+        // HGSS bounce on click — double bounce
         let bouncing = false;
         bird.addEventListener("click", function(e) {
           e.stopPropagation();
           if (bouncing) return;
           bouncing = true;
-          const startY = birdY;
-          const duration = 400;
+          const duration = 500;
           const startTime = performance.now();
           function bounceStep(now) {
             const t = Math.min((now - startTime) / duration, 1);
-            // Simple arc: sin curve for the hop
-            const hop = Math.sin(t * Math.PI) * -16;
-            // Squish at start and landing
-            var squishY = 1;
-            var squishX = 1;
-            if (t < 0.15) {
-              squishY = 1 - (0.15 * (t / 0.15));
-              squishX = 1 + (0.1 * (t / 0.15));
-            } else if (t > 0.85) {
-              var lt = (t - 0.85) / 0.15;
-              squishY = 1 - (0.1 * (1 - lt));
-              squishX = 1 + (0.05 * (1 - lt));
+            var hop = 0;
+            // First big bounce: t 0–0.55
+            if (t < 0.55) {
+              hop = Math.sin((t / 0.55) * Math.PI) * -18;
             }
-            var flipVal = facingLeft ? 1 : -1;
-            bird.style.transform = "scaleX(" + flipVal + ") scaleY(" + squishY + ") scaleX(" + squishX + ")";
+            // Second small bounce: t 0.55–1.0
+            else {
+              hop = Math.sin(((t - 0.55) / 0.45) * Math.PI) * -6;
+            }
             bird.style.top = (birdY + hop) + "px";
             if (t < 1) {
               requestAnimationFrame(bounceStep);
             } else {
               bird.style.top = birdY + "px";
-              bird.style.transform = facingLeft ? "scaleX(1)" : "scaleX(-1)";
               bouncing = false;
             }
           }
@@ -232,12 +226,16 @@
           }
 
           if (!bouncing) {
-            if (dx < -2 && !facingLeft) {
-              bird.style.transform = "scaleX(1)";
-              facingLeft = true;
-            } else if (dx > 2 && facingLeft) {
-              bird.style.transform = "scaleX(-1)";
-              facingLeft = false;
+            if (dx < -2) {
+              if (!facingLeft) {
+                bird.style.transform = "scaleX(1)";
+                facingLeft = true;
+              }
+            } else if (dx > 2) {
+              if (facingLeft) {
+                bird.style.transform = "scaleX(-1)";
+                facingLeft = false;
+              }
             }
           }
 
