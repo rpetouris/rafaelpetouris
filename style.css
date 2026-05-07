@@ -80,19 +80,20 @@ h3 {
   color: #ff8c42;
   font-size: 0.9em;
   background: #1a1611;
-  padding: 0.1em 0.4em;
+  padding: 0.1em 0.3em;
   border-radius: 3px;
+  margin: 0 0.15em;
 }
 
 /* Speech bubble */
 .speech-bubble {
   display: inline-block;
   position: relative;
-  background: #3d3228;
+  background: #1a1611;
   color: #ffb000;
-  padding: 0.15em 0.6em;
+  padding: 0.1em 0.5em;
   border-radius: 0.6em;
-  margin-left: 0.8em;
+  margin-left: 0.4em;
   font-weight: 700;
 }
 
@@ -103,7 +104,7 @@ h3 {
   bottom: -0.6em;
   width: 0;
   height: 0;
-  border-left: 0.7em solid #3d3228;
+  border-left: 0.7em solid #1a1611;
   border-bottom: 0.7em solid transparent;
 }
 
