@@ -76,7 +76,10 @@
        Sprite used for fun on a personal non-commercial site. No infringement intended. -->
   <img id="farfetchd" class="cursor-chaser" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="" aria-hidden="true">
   <script>
-    // === Synchronized Marquee (perspective-aware) ===
+    // === Synchronized Marquee ===
+    // Panel 2 (right) scrolls. Panel 1 (left) is delayed by exactly
+    // the time it takes text to cross one panel width, so words flow
+    // seamlessly from right panel into left panel.
     (function() {
       var inners = document.querySelectorAll(".box .inner");
       if (inners.length < 2) return;
@@ -86,16 +89,18 @@
 
       var panelWidth = inners[0].offsetWidth;
       var textWidth = span1.scrollWidth / 2;
-      var offset = 0;
       var speed = 0.5;
+      var offset2 = 0;
+      // Panel 1 is delayed: starts one panel-width behind in the scroll
+      var offset1 = 0 - panelWidth;
 
       function scrollMarquee() {
-        offset -= speed;
-        if (offset <= -textWidth) {
-          offset += textWidth;
-        }
-        span1.style.transform = "translateX(" + offset + "px)";
-        span2.style.transform = "translateX(" + (offset - panelWidth) + "px)";
+        offset1 -= speed;
+        offset2 -= speed;
+        if (offset1 <= -textWidth) offset1 += textWidth;
+        if (offset2 <= -textWidth) offset2 += textWidth;
+        span1.style.transform = "translateX(" + offset1 + "px)";
+        span2.style.transform = "translateX(" + offset2 + "px)";
         requestAnimationFrame(scrollMarquee);
       }
       scrollMarquee();
